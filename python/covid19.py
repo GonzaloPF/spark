@@ -42,8 +42,8 @@ df_ccaa = spark.read.load("CCAA.csv", format="csv", sep=",", header="True", empt
 #format the values
 end_casos = df_casos.rdd.map(lambda x: groupByProv(x)) \
                         .filter(lambda x: filterTotal(x)) \
-                        .reduceByKey(lambda x,y: [int(x[0]) + int(y[0])]) \
-                        .map(lambda x: (x[0],x[1][0]))
+                        .reduceByKey(lambda x,y: int(x) + int(y)) \
+                        .map(lambda x: (x[0],x[1]))
                         
 #create RDD for population
 #get only code and total by CCAA
